@@ -1,5 +1,6 @@
 package xyz.dgz48.todob.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,33 +10,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import xyz.dgz48.todob.data.entity.Todo;
+import xyz.dgz48.todob.service.task.Task;
+import xyz.dgz48.todob.service.task.TaskRequest;
 
 @RestController
 @RequestMapping("/todo")
 public class TodoController {
 
     @GetMapping("/")
-    private Flux<Todo> list() {
+    private Page<Task> list() {
         // TODO
         return null;
     }
 
     @GetMapping("/{id}")
-    private Mono<Todo> get(@PathVariable String id) {
+    private Task get(@PathVariable String id) {
         // TODO
         return null;
     }
 
     @PutMapping("/{id}")
-    private void register(@PathVariable String id, @RequestBody Todo todo) {
+    private void register(@PathVariable String id, @RequestBody TaskRequest request) {
         // TODO
     }
 
     @PostMapping("/{id}")
-    private void update(@PathVariable String id, @RequestBody Todo todo) {
+    private void update(@PathVariable String id, @RequestBody TaskRequest request) {
         // TODO
     }
 

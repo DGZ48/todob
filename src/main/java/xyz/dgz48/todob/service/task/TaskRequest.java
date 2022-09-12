@@ -1,4 +1,4 @@
-package xyz.dgz48.todob.data.entity;
+package xyz.dgz48.todob.service.task;
 
 import java.time.ZonedDateTime;
 
@@ -8,17 +8,14 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class Todo {
-
-    private @NotEmpty String id;
+public class TaskRequest {
 
     private @NotEmpty String title;
 
-    private @NotEmpty String detail;
+    private String detail;
 
     private ZonedDateTime deadline;
 
-    private @NotNull ZonedDateTime createdAt;
+    private Boolean done;
 
-    private @NotNull ZonedDateTime modifiedAt;
 }
