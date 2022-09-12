@@ -34,10 +34,13 @@ class ModelMapperConfiguration {
 
 	private void configureMappingProductCategory(ModelMapper modelMapper) {
 		modelMapper.typeMap(TaskEntity.class, Task.class)
-				.addMappings(mapper -> mapper.using(LDT2ZDT).map(TaskEntity::getCreatedDate, Task::setCreatedDate))
-				.addMappings(mapper -> mapper.using(LDT2ZDT).map(TaskEntity::getLastModifiedDate, Task::setLastModifiedDate))
+                .addMappings(mapper -> mapper.using(NULL2FALSE).map(TaskEntity::getDone, Task::setDone))
+                //.addMappings(mapper -> mapper.using(LDT2ZDT).map(TaskEntity::getCreatedDate, Task::setCreatedDate))
+				//.addMappings(mapper -> mapper.using(LDT2ZDT).map(TaskEntity::getLastModifiedDate, Task::setLastModifiedDate))
 		;
 		modelMapper.typeMap(TaskRequest.class, TaskEntity.class)
+				.addMappings(mapper -> mapper.skip(TaskEntity::setId))
+				.addMappings(mapper -> mapper.skip(TaskEntity::setOwner))
 				.addMappings(mapper -> mapper.skip(TaskEntity::setCreatedDate))
 				.addMappings(mapper -> mapper.skip(TaskEntity::setLastModifiedDate))
 		;
@@ -47,7 +50,16 @@ class ModelMapperConfiguration {
 
 		@Override
 		protected ZonedDateTime convert(LocalDateTime source) {
-			return source.atZone(ZoneId.systemDefault());
+            return source == null ? null :  source.atZone(ZoneId.systemDefault());
+		}
+
+	};
+
+    static Converter<Boolean, Boolean> NULL2FALSE = new AbstractConverter<Boolean,Boolean>() {
+
+		@Override
+		protected Boolean convert(Boolean source) {
+            return source == null ? Boolean.FALSE :  source;
 		}
 
 	};

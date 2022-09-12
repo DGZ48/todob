@@ -1,5 +1,6 @@
 package xyz.dgz48.todob.service.task;
 
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import xyz.dgz48.todob.common.exception.GeneralBusinessLogicException;
@@ -27,7 +29,7 @@ class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<Task> list(String user) {
-        return this.taskRepository.findByOwner(user).map(e -> this.dxo.map(e, Task.class));
+        return this.taskRepository.findByOwner(user, Pageable.unpaged()).map(e -> this.dxo.map(e, Task.class));
     }
 
     @Override
@@ -55,9 +57,12 @@ class TaskServiceImpl implements TaskService {
 
         TaskEntity entity = new TaskEntity();
         entity.setId(id);
+        entity.setOwner(user);
+        entity.setCreatedDate(ZonedDateTime.now());
+        entity.setLastModifiedDate(ZonedDateTime.now());
         dxo.map(request, entity);
 
-        entity = this.taskRepository.save(entity);
+        entity = this.taskRepository.saveAndFlush(entity);
     }
 
     @Override
@@ -68,9 +73,10 @@ class TaskServiceImpl implements TaskService {
         }
 
         TaskEntity entity = op.get();
+        entity.setLastModifiedDate(ZonedDateTime.now());
         dxo.map(request, entity);
 
-        entity = this.taskRepository.save(entity);
+        entity = this.taskRepository.saveAndFlush(entity);
     }
 
     @Override
