@@ -3,7 +3,6 @@ package xyz.dgz48.todob.service.task;
 import java.time.ZonedDateTime;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 

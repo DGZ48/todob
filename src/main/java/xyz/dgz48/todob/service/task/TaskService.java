@@ -2,6 +2,8 @@ package xyz.dgz48.todob.service.task;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.domain.Page;
@@ -10,13 +12,13 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public interface TaskService {
 
-    @NotNull Page<Task> list(String user, TaskRequest request);
+    @NotNull @Valid Page<Task> list(@NotEmpty String user);
 
-    @NotNull Optional<Task> get(String user, String id);
+    @NotNull @Valid Optional<Task> get(@NotEmpty String user, @NotEmpty String id);
 
-    void register(String user, String id, TaskRequest request);
+    void register(@NotEmpty String user, @NotEmpty String id, @NotNull @Valid TaskRequest request);
 
-    void update(String user, String id, TaskRequest request);
+    void update(@NotEmpty String user, @NotEmpty String id, @NotNull @Valid TaskRequest request);
 
-    void delete(String user, String id);
+    void delete(@NotEmpty String user, @NotEmpty String id);
 }
