@@ -64,3 +64,10 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         min-coverage-overall: 40
         min-coverage-changed-files: 60
+    - name: Upload test report
+      uses: actions/upload-artifact@v3
+      with:
+        name: "junit & jacoco"
+        path: |
+          build/reports/tests/test/
+          build/reports/jacoco/test/html
