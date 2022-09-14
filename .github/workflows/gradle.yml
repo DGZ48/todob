@@ -13,6 +13,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  GRADLE_BUILD_ACTION_CACHE_DEBUG_ENABLED: true
+
 permissions:
   contents: read
   issues: read
@@ -32,7 +35,8 @@ jobs:
       with:
         java-version: '17'
         distribution: 'corretto'
-        cache: 'gradle'
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@v1
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
     - name: Grant execute permission for gradlew
